@@ -3,7 +3,6 @@ try:
     import json
     import glob
     import argparse
-
     import numpy as np
     from scipy import signal as sg
     from scipy.ndimage.filters import maximum_filter
@@ -16,7 +15,7 @@ except ImportError:
     raise
 
 
-def find_tfl_lights(c_image: np.ndarray):
+def find_tfl_lights(c_image: np.ndarray, some_threshold):
     """
     Detect candidates for TFL lights. Use c_image, kwargs and you imagination to implement
     :param c_image: The image itself as np.uint8, shape of (H, W, 3)
@@ -25,6 +24,7 @@ def find_tfl_lights(c_image: np.ndarray):
     """
     ### WRITE YOUR CODE HERE ###
     ### USE HELPER FUNCTIONS ###
+    return [],[],[100],[100]
 
 
 ### GIVEN CODE TO TEST YOUR IMPLENTATION AND PLOT THE PICTURES
