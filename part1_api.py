@@ -7,7 +7,6 @@ try:
     import numpy as np
     from scipy import signal as sg
     from scipy.ndimage.filters import maximum_filter
-
     from PIL import Image
 
     import matplotlib.pyplot as plt
@@ -19,17 +18,14 @@ def get_red_and_green_matrix(c_image: np.ndarray):
     """
         Divide into green and red matrices, find the green and red light
         """
-    red_matrix = [[0 for i in range(2048)] for i in range(1024)]
-    green_matrix = [[0 for i in range(2048)] for i in range(1024)]
-
+    red_matrix = []
+    green_matrix = []
     for x_cord in range(1024):
         red_matrix.append([])
         green_matrix.append([])
         for y_cord in range(2048):
             red_matrix[x_cord].append(float(c_image[x_cord][y_cord][0]))
             green_matrix[x_cord].append(float(c_image[x_cord][y_cord][1]))
-            red_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][0])
-            green_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][1])
     return red_matrix, green_matrix
 
 def find_tfl_lights(c_image: np.ndarray, some_threshold):
@@ -39,9 +35,16 @@ def find_tfl_lights(c_image: np.ndarray, some_threshold):
     :param kwargs: Whatever config you want to pass in here
     :return: 4-tuple of x_red, y_red, x_green, y_green
     """
-    
-
-    return [1500, 150, 1200, 15], [52, 540, 556, 222], [1000, 1000, 1000, 1000], [854, 50, 120, 12]
+    red_filter = np.array(Image.open('red.png'))[:, :, 0]
+    green_filter = np.array(Image.open('green.png'))[:, :, 1]
+    red_matrix,green_matrix = get_red_and_green_matrix(c_image)
+    new_red = sg.convolve(red_matrix,red_filter,mode='same')
+    new_green = sg.convolve(green_matrix,green_filter,mode='same')
+    red_max = maximum_filter(new_red,size=500) ==new_red
+    green_max = maximum_filter(new_green,size=500)==new_green
+    y_red,x_red = np.where(red_max)
+    y_green,x_green= np.where(green_max)
+    return x_red,y_red,x_green,y_green
 
 
 
@@ -89,7 +92,7 @@ def main(argv=None):
     parser.add_argument("-j", "--json", type=str, help="Path to json GT for comparison")
     parser.add_argument('-d', '--dir', type=str, help='Directory to scan images in')
     args = parser.parse_args(argv)
-    default_base = '../data/leftImg8bit/test/temp'
+    default_base = '../../data/leftImg8bit/test/temp'
 
     if args.dir is None:
         args.dir = default_base
