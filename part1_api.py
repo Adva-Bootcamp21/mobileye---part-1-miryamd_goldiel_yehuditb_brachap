@@ -32,10 +32,14 @@ def find_tfl_lights(c_image: np.ndarray,some_threshold):
 
     for x_cord in range(1024):
         for y_cord in range(2048):
-            red_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][0])
-            green_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][1])
+            red_matrix[x_cord][y_cord] = float((c_image[x_cord][y_cord][0]).copy())
+            green_matrix[x_cord][y_cord] = float((c_image[x_cord][y_cord][1]).copy())
     red_matrix=np.array(red_matrix)
-    plt.imshow(red_matrix)
+    # plt.imshow(red_matrix)
+    green_matrix = np.array(red_matrix)
+    # plt.imshow(green_matrix)
+    show_image_and_gt(red_matrix, None)
+    show_image_and_gt(green_matrix,None)
 
     return ([1500,150,1200,15],[52,540,556,222],[1000,1000,1000,1000],[854,50,120,12])
 
@@ -43,7 +47,7 @@ def find_tfl_lights(c_image: np.ndarray,some_threshold):
 ### GIVEN CODE TO TEST YOUR IMPLENTATION AND PLOT THE PICTURES
 def show_image_and_gt(image, objs, fig_num=None):
     plt.figure(fig_num).clf()
-    plt.imshow(image)
+    plt.imshow(image,cmap='Reds')
     labels = set()
     if objs is not None:
         for o in objs:
@@ -71,6 +75,7 @@ def test_find_tfl_lights(image_path, json_path=None, fig_num=None):
     red_x, red_y, green_x, green_y = find_tfl_lights(image, some_threshold=42)
     plt.plot(red_x, red_y, 'ro', color='r', markersize=4)
     plt.plot(green_x, green_y, 'ro', color='g', markersize=4)
+    show_image_and_gt(image, objects, fig_num)
 
 
 
