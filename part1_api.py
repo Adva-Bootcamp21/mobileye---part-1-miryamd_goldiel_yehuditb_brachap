@@ -15,39 +15,35 @@ except ImportError:
     print("Need to fix the installation")
     raise
 
+def get_red_and_green_matrix(c_image: np.ndarray):
+    """
+        Divide into green and red matrices, find the green and red light
+        """
+    red_matrix = [[0 for i in range(2048)] for i in range(1024)]
+    green_matrix = [[0 for i in range(2048)] for i in range(1024)]
 
-def find_tfl_lights(c_image: np.ndarray,some_threshold):
+    for x_cord in range(1024):
+        for y_cord in range(2048):
+            red_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][0])
+            green_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][1])
+    return red_matrix, green_matrix
+
+def find_tfl_lights(c_image: np.ndarray, some_threshold):
     """
     Detect candidates for TFL lights. Use c_image, kwargs and you imagination to implement
     :param c_image: The image itself as np.uint8, shape of (H, W, 3)
     :param kwargs: Whatever config you want to pass in here
     :return: 4-tuple of x_red, y_red, x_green, y_green
     """
+    
 
-    """
-    Divide into green and red matrices, find the green and red light
-    """
-    red_matrix = [[0 for i in range(2048)] for i in range(1024)]
-    green_matrix = [[0 for i in range(2048)] for i in range(1024)]
-
-    for x_cord in range(1024):
-        for y_cord in range(2048):
-            red_matrix[x_cord][y_cord] = float((c_image[x_cord][y_cord][0]).copy())
-            green_matrix[x_cord][y_cord] = float((c_image[x_cord][y_cord][1]).copy())
-    red_matrix=np.array(red_matrix)
-    # plt.imshow(red_matrix)
-    green_matrix = np.array(red_matrix)
-    # plt.imshow(green_matrix)
-    show_image_and_gt(red_matrix, None)
-    show_image_and_gt(green_matrix,None)
-
-    return ([1500,150,1200,15],[52,540,556,222],[1000,1000,1000,1000],[854,50,120,12])
+    return [1500, 150, 1200, 15], [52, 540, 556, 222], [1000, 1000, 1000, 1000], [854, 50, 120, 12]
 
 
 ### GIVEN CODE TO TEST YOUR IMPLENTATION AND PLOT THE PICTURES
 def show_image_and_gt(image, objs, fig_num=None):
     plt.figure(fig_num).clf()
-    plt.imshow(image,cmap='Reds')
+    plt.imshow(image)
     labels = set()
     if objs is not None:
         for o in objs:
@@ -75,8 +71,6 @@ def test_find_tfl_lights(image_path, json_path=None, fig_num=None):
     red_x, red_y, green_x, green_y = find_tfl_lights(image, some_threshold=42)
     plt.plot(red_x, red_y, 'ro', color='r', markersize=4)
     plt.plot(green_x, green_y, 'ro', color='g', markersize=4)
-    show_image_and_gt(image, objects, fig_num)
-
 
 
 def main(argv=None):
@@ -90,7 +84,7 @@ def main(argv=None):
     parser.add_argument("-j", "--json", type=str, help="Path to json GT for comparison")
     parser.add_argument('-d', '--dir', type=str, help='Directory to scan images in')
     args = parser.parse_args(argv)
-    default_base = '../../data/'
+    default_base = '../data/leftImg8bit/test/temp'
 
     if args.dir is None:
         args.dir = default_base
