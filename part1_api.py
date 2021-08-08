@@ -7,7 +7,7 @@ try:
     import numpy as np
     from scipy import signal as sg
     from scipy.ndimage.filters import maximum_filter
-
+    from numpy import array
     from PIL import Image
 
     import matplotlib.pyplot as plt
@@ -35,8 +35,7 @@ def find_tfl_lights(c_image: np.ndarray, some_threshold):
     :param kwargs: Whatever config you want to pass in here
     :return: 4-tuple of x_red, y_red, x_green, y_green
     """
-    
-
+    i_matrix = np.array(Image.open('i.png'))
     return [1500, 150, 1200, 15], [52, 540, 556, 222], [1000, 1000, 1000, 1000], [854, 50, 120, 12]
 
 
