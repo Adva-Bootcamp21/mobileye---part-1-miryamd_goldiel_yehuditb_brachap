@@ -16,7 +16,7 @@ except ImportError:
     raise
 
 
-def find_tfl_lights(c_image: np.ndarray):
+def find_tfl_lights(c_image: np.ndarray, some_threshold):
     """
     Detect candidates for TFL lights. Use c_image, kwargs and you imagination to implement
     :param c_image: The image itself as np.uint8, shape of (H, W, 3)
@@ -25,6 +25,7 @@ def find_tfl_lights(c_image: np.ndarray):
     """
     ### WRITE YOUR CODE HERE ###
     ### USE HELPER FUNCTIONS ###
+    return [5,8], [5,9], [],[]
 
 
 ### GIVEN CODE TO TEST YOUR IMPLENTATION AND PLOT THE PICTURES
@@ -60,7 +61,6 @@ def test_find_tfl_lights(image_path, json_path=None, fig_num=None):
     plt.plot(green_x, green_y, 'ro', color='g', markersize=4)
 
 
-
 def main(argv=None):
     """It's nice to have a standalone tester for the algorithm.
     Consider looping over some images from here, so you can manually exmine the results
@@ -72,7 +72,7 @@ def main(argv=None):
     parser.add_argument("-j", "--json", type=str, help="Path to json GT for comparison")
     parser.add_argument('-d', '--dir', type=str, help='Directory to scan images in')
     args = parser.parse_args(argv)
-    default_base = '../../data'
+    default_base = '../data/leftImg8bit/test/temp'
 
     if args.dir is None:
         args.dir = default_base
