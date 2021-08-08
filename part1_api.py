@@ -23,9 +23,19 @@ def find_tfl_lights(c_image: np.ndarray, some_threshold):
     :param kwargs: Whatever config you want to pass in here
     :return: 4-tuple of x_red, y_red, x_green, y_green
     """
-    ### WRITE YOUR CODE HERE ###
-    ### USE HELPER FUNCTIONS ###
-    return [5,8], [5,9], [],[]
+    """
+    Divide into green and red matrices, find the green and red light
+    """
+    red_matrix = [[0 for i in range(2048)] for i in range(1024)]
+    green_matrix = [[0 for i in range(2048)] for i in range(1024)]
+
+    for x_cord in range(1024):
+        for y_cord in range(2048):
+            red_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][0])
+            green_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][1])
+
+    return ([1500,150,1200,15],[52,540,556,222],[1000,1000,1000,1000],[854,50,120,12])
+
 
 
 ### GIVEN CODE TO TEST YOUR IMPLENTATION AND PLOT THE PICTURES
