@@ -34,6 +34,8 @@ def find_tfl_lights(c_image: np.ndarray,some_threshold):
         for y_cord in range(2048):
             red_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][0])
             green_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][1])
+    red_matrix=np.array(red_matrix)
+    plt.imshow(red_matrix)
 
     return ([1500,150,1200,15],[52,540,556,222],[1000,1000,1000,1000],[854,50,120,12])
 
