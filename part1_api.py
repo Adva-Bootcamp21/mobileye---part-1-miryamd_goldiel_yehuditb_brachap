@@ -27,14 +27,16 @@ def find_tfl_lights(c_image: np.ndarray,some_threshold):
     """
     Divide into green and red matrices, find the green and red light
     """
-    red_matrix = [[0 for i in range(2048)] for i in range(1024)]
-    green_matrix = [[0 for i in range(2048)] for i in range(1024)]
+    red_matrix = []
+    green_matrix = []
 
     for x_cord in range(1024):
+        red_matrix.append([])
+        green_matrix.append([])
         for y_cord in range(2048):
-            red_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][0])
-            green_matrix[x_cord][y_cord] = float(c_image[x_cord][y_cord][1])
-
+            red_matrix[x_cord].append(float(c_image[x_cord][y_cord][0]))
+            green_matrix[x_cord].append(float(c_image[x_cord][y_cord][1]))
+    sg.convolve()
     return ([1500,150,1200,15],[52,540,556,222],[1000,1000,1000,1000],[854,50,120,12])
 
 
