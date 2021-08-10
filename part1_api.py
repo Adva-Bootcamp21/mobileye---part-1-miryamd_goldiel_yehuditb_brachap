@@ -4,6 +4,7 @@ try:
     import json
     import glob
     import argparse
+    import cv2
 
     import numpy as np
     from scipy import signal as sg
@@ -49,7 +50,6 @@ def find_tfl_lights(c_image: np.ndarray, kernel, some_threshold):
 
     new_red = sg.convolve(red_matrix, kernel, mode='same')
     new_green = sg.convolve(green_matrix, kernel, mode='same')
-
     # filters to get the max match in each area of the green and red after doing the convolvation
     red_max = maximum_filter(new_red, size=250)
     green_max = maximum_filter(new_green, size=250)
@@ -94,7 +94,6 @@ def show_image_and_gt(image, objs, fig_num=None):
             labels.add(o['label'])
         if len(labels) > 1:
             plt.legend()
-
 
 def test_find_tfl_lights(image_path, statistics, kernel, json_path=None, fig_num=None):
     """
@@ -143,7 +142,6 @@ def test_find_tfl_lights(image_path, statistics, kernel, json_path=None, fig_num
         update_statistics(polygons, red_x, red_y, green_x, green_y, statistics)
 
     show_image_and_gt(image, objects, fig_num)
-
     # drawing the red and green cordinates on it's image
     plt.plot(red_x, red_y, 'ro', color='r', markersize=4)
     plt.plot(green_x, green_y, 'ro', color='g', markersize=4)
